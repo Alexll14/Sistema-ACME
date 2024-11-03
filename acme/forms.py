@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
 # o validator de e-mail será usado caso seja feito o login para usuarios que não sejam admin
 
 
-class FormCriarAdmin(FlaskForm):
+class FormCadastrarAdmin(FlaskForm):
     username = StringField('Nome de usuário', validators=[DataRequired()])
     senha = PasswordField('Senha', validators=[DataRequired(), Length(8,30)])
     confirmar_senha = PasswordField('Confirmação da senha', validators=[DataRequired(), EqualTo('senha')])
