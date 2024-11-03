@@ -10,4 +10,5 @@ class Produto(database.Model):
     preco_produto = database.Column(database.Float, nullable=False)
     qtd_produto = database.Column(database.Integer, nullable=False)
     cat_produto = database.Column(database.String, default='sem categoria')
+    foto_produto = database.Column(database.String, default='default.jpg')
     id_produto = database.Column(database.Integer, primary_key=True)
