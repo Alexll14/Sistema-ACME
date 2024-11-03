@@ -11,3 +11,8 @@ html, body {
     width: 100%;
     max-width: 400px;
 }
+
+.navbar a{
+    text-decoration: none;
+    color: white;
+}

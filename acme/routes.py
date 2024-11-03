@@ -15,6 +15,16 @@ def home():
 def estoque():
     return render_template('estoque.html')
 
+@app.route('/usuario')
+@login_required
+def lista_usuario():
+    return render_template('lista_usuario.html')
+
+@app.route('/historico')
+@login_required
+def historico():
+    return render_template('historico.html')
+
 @app.route('/admin/login', methods=['GET', 'POST'])
 def login_admin():
     form = FormLoginAdmin()
@@ -42,7 +52,7 @@ def cadastrar_admin():
         database.session.add(admin)
         database.session.commit()
         flash('Usuário administrador criado com sucesso!' , 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for('login_admin'))
 
     return render_template('cadastrarAdmin.html', form=form)
 
