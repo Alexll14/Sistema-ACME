@@ -31,6 +31,9 @@ def login_admin():
 
     if form.validate_on_submit() and 'submit' in request.form:
         admin = Admin.query.filter_by(username=form.username.data).first()
+        if admin is None:
+            form.username.errors.append('Usuário inexistente!')
+
         if admin and bcrypt.check_password_hash(admin.senha, form.senha.data):
             login_user(admin, remember=form.lembrar_dados.data)
             flash('Login feito com sucesso!','success')
@@ -39,6 +42,8 @@ def login_admin():
                 return redirect(par_next)
             else:
                 return redirect(url_for('estoque'))
+        else:
+            form.senha.errors.append('Senha incorreta!')
 
     return render_template('loginAdmin.html', form=form)
 
@@ -47,12 +52,22 @@ def cadastrar_admin():
     form = FormCadastrarAdmin()
 
     if form.validate_on_submit() and 'submit' in request.form:
-        senha_bcrypt = bcrypt.generate_password_hash(form.senha.data)
-        admin = Admin(username=form.username.data, senha=senha_bcrypt)
-        database.session.add(admin)
-        database.session.commit()
-        flash('Usuário administrador criado com sucesso!' , 'success')
-        return redirect(url_for('login_admin'))
+        nome_duplicado = Admin.query.filter_by(username=form.username.data).first()
+        if nome_duplicado or form.confirmar_senha.errors:
+            form.username.errors.append('Usuário já cadastrado!')
+        else:
+            senha_bcrypt = bcrypt.generate_password_hash(form.senha.data)
+            admin = Admin(username=form.username.data, senha=senha_bcrypt)
+            database.session.add(admin)
+            database.session.commit()
+            flash('Usuário administrador criado com sucesso!', 'success')
+            return redirect(url_for('login_admin'))
+
+    if type(form.confirmar_senha.errors) == list:
+        form.confirmar_senha.errors.append('As senhas não coincidem!')
+        form.senha.errors.append('As senhas não coincidem!')
+        form.confirmar_senha.errors.pop(0)
+        form.senha.errors.pop(0)
 
     return render_template('cadastrarAdmin.html', form=form)
 

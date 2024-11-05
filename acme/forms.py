@@ -1,22 +1,24 @@
+from enum import unique
+
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, FloatField
 from wtforms.fields.numeric import IntegerField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
-#from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+#from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError,
 # o validator de e-mail será usado caso seja feito o login para usuarios que não sejam admin
 
 
 class FormCadastrarAdmin(FlaskForm):
     username = StringField('Nome de usuário', validators=[DataRequired()])
-    senha = PasswordField('Senha', validators=[DataRequired(), Length(8,30)])
+    senha = PasswordField('Senha', validators=[DataRequired(), Length(8,20)])
     confirmar_senha = PasswordField('Confirmação da senha', validators=[DataRequired(), EqualTo('senha')])
     submit = SubmitField('Criar conta')
 
 
 class FormLoginAdmin(FlaskForm):
     username = StringField('Nome de usuário', validators=[DataRequired()])
-    senha = PasswordField('Senha', validators=[DataRequired(), Length(8, 30)])
+    senha = PasswordField('Senha', validators=[DataRequired(), Length(8, 20)])
     lembrar_dados = BooleanField('Lembrar dados de acesso')
     submit = SubmitField('Fazer login')
 

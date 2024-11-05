@@ -8,13 +8,31 @@
             {{ form.csrf_token }}
             <fieldset>
                 <h1 class="text-center">ACME</h1><br>
-                <div class="mb-3">
+                <div class="mb-3 form-group">
                     {{ form.username.label(class='form-label') }}
-                    {{ form.username(class='form-control') }}
+                    {% if form.username.errors %}
+                        {{ form.username(class='form-control is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for erro in form.username.errors %}
+                                {{ erro }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.username(class='form-control') }}
+                    {% endif %}
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 form-group">
                     {{ form.senha.label(class='form-label') }}
-                    {{ form.senha(class='form-control') }}
+                    {% if form.senha.errors %}
+                        {{ form.senha(class='form-control is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for erro in form.senha.errors %}
+                                {{ erro }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.senha(class='form-control') }}
+                    {% endif %}
                 </div>
                 <div class="mb-3 form-check">
                     {{ form.lembrar_dados(class='form-check-input') }}
