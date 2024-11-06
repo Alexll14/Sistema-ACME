@@ -26,3 +26,8 @@ html, body {
 .lDesligado{
     text-decoration: none;
 }
+
+.btnTable{
+    width: 30px;
+    padding: 5px;
+}

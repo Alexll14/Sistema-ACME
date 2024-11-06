@@ -13,7 +13,8 @@ def home():
 @app.route('/estoque')
 @login_required
 def estoque():
-    return render_template('estoque.html')
+    produtos = Produto.query.all()
+    return render_template('estoque.html', produtos=produtos)
 
 @app.route('/usuario/<username>/excluir', methods=['GET', 'POST'])
 @login_required

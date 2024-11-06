@@ -2,11 +2,46 @@
 
 {% block body %}
 
-
-<div class="container-fluid h-100 d-flex align-items-center justify-content-center cor_fundo">
-    <div class="p-5 bg-light rounded shadow login">
-        <h1>estoque</h1>
-        <a href="{{ url_for('cadastrar_admin') }}"> botao temporario - cadastrar admin </a><br>
+<div class="container-fluid cor_fundo">
+    <div class="row justify-content-center">
+        <div class="col-md-8 mt-5">
+            <table class="table table-striped custab table-dark">
+                <thead>
+                    <tr>
+                        <th colspan="4" class="text-right">
+                            <a href="#" class="btn btn-primary btn-sm"><b>Adicionar</b> produto</a>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th class="text-center">Produto</th>
+                        <th class="text-center">Quantidade</th>
+                        <th class="text-center">Alterações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ produtos.nome_produto }}</td>
+                        <td>{{ produtos.qtd_produto }}</td>
+                        <td class="text-center">
+                            <div class="row justify-content-center">
+                                <div class="col">
+                                    <a class="btn btn-primary btn-sm btnTable w-100" href="#"><span class="glyphicon glyphicon-edit"></span> Editar</a>
+                                </div>
+                                <div class="col">
+                                    <a class="btn btn-success btn-sm btnTable w-100" href="#"><span class="glyphicon glyphicon-plus"></span> <b>+</b></a>
+                                </div>
+                                <div class="col">
+                                    <a class="btn btn-warning btn-sm btnTable w-100" href="#"><span class="glyphicon glyphicon-minus"></span> <b>-</b></a>
+                                </div>
+                                <div class="col">
+                                    <a class="btn btn-danger btn-sm btnTable w-100" href="#"><span class="glyphicon glyphicon-trash"></span> Deletar</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
