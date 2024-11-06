@@ -2,10 +2,51 @@
 
 {% block body %}
 
-
-<div class="container-fluid h-100 d-flex align-items-center justify-content-center cor_fundo">
-    <div class="p-5 bg-light rounded shadow login">
-        <h1>lista de usuarios para editar perfis</h1>
+<div class="container-fluid cor_fundo">
+    <div class="row justify-content-center">
+        <div class="col-10 col-md-8 mt-5">
+            <table class="table table-hover table-borderless cor_tabela">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" class="text-center">Admin</th>
+                        <th scope="col" class="text-center">Alterar senha</th>
+                        <th scope="col" class="text-center">Revogar acesso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dados in admin %}
+                    <tr>
+                        <td class="text-center">{{ dados.username }}</td>
+                        <td class="text-center">Alterar senha</td>
+                        <td class="text-center">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#ExcluirAdmin{{ dados.id }}" class="text-muted lDesligado">
+                                Remover acesso
+                            </a>
+                        </td>
+                    </tr>
+                    <div class="modal fade" id="ExcluirAdmin{{ dados.id }}" tabindex="-1" aria-labelledby="exampleModalLabel{{ dados.id }}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel{{ dados.id }}">Remover acesso</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Você tem certeza que quer excluir este acesso de administrado?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                    <form method="POST" action="{{ url_for('remover_admin', username=dados.username) }}">
+                                        <button type="submit" class="btn btn-danger">Excluir acesso de Admin</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

@@ -15,10 +15,20 @@ def home():
 def estoque():
     return render_template('estoque.html')
 
+@app.route('/usuario/<username>/excluir', methods=['GET', 'POST'])
+@login_required
+def remover_admin(username):
+    admin = Admin.query.filter_by(username=username).first()
+    database.session.delete(admin)
+    database.session.commit()
+    flash('Conta excluido com sucesso!', 'success')
+    return redirect(url_for('estoque'))
+
 @app.route('/usuario')
 @login_required
 def lista_usuario():
-    return render_template('lista_usuario.html')
+    admin = Admin.query.all()
+    return render_template('lista_usuario.html', admin=admin)
 
 @app.route('/historico')
 @login_required
@@ -61,7 +71,7 @@ def cadastrar_admin():
             database.session.add(admin)
             database.session.commit()
             flash('Usuário administrador criado com sucesso!', 'success')
-            return redirect(url_for('login_admin'))
+            return redirect(url_for('estoque'))
 
     if type(form.confirmar_senha.errors) == list:
         form.confirmar_senha.errors.append('As senhas não coincidem!')

@@ -7,6 +7,12 @@ html, body {
     height: 100%;
 }
 
+.cor_tabela{
+    background-color: #F8F9FA;
+    height: 100%;
+    border-radius:25px;
+}
+
 .login{
     width: 100%;
     max-width: 400px;
@@ -15,4 +21,8 @@ html, body {
 .navbar a{
     text-decoration: none;
     color: white;
+}
+
+.lDesligado{
+    text-decoration: none;
 }
