@@ -26,7 +26,7 @@ class FormLoginAdmin(FlaskForm):
 class FormCadastrarProduto(FlaskForm):
     nome_produto = StringField('Cadastrar nome do produto')
     preco_produto = FloatField('Cadastrar preço do produto')
-    qtd_produto = IntegerField('Cadastrar quandtidade do produto')
+    qtd_produto = IntegerField('Cadastrar quantidade do produto')
     cat_produto = StringField('Cadastrar categoria do produto')
     foto_produto = FileField('Cadastrar foto do produto', validators=[FileAllowed(['jpg','jpeg','png'])])
     submit = SubmitField('Cadastrar produto')

@@ -1,10 +1,13 @@
 from acme import app, bcrypt, database
 from acme.models import Admin, Produto
-from acme.forms import FormLoginAdmin, FormCadastrarAdmin
+from acme.forms import FormLoginAdmin, FormCadastrarAdmin, FormCadastrarProduto
 
 from flask import render_template, url_for, request, redirect, flash
 from flask_login import login_user, login_required, logout_user
 
+import secrets
+import os
+from PIL import Image
 
 @app.route('/')
 def home():
@@ -88,3 +91,48 @@ def sair():
     logout_user()
     flash('Log-out feito com sucesso!', 'success')
     return redirect(url_for('home'))
+
+def salvar_imagem(imagem):
+    codigo = secrets.token_hex(8)
+    nome, extensao = os.path.splitext(imagem.filename)
+    nome_arquivo = nome + codigo + extensao
+
+    caminho_base = r'C:\Users\alexl\Documents\GitHub\pythonCrud\acme\static\fotos_produto'
+
+    if not os.path.exists(caminho_base):
+        os.makedirs(caminho_base)
+
+    caminho_completo = os.path.join(caminho_base, nome_arquivo)
+
+    tamanho = (400, 400)
+    imagem_reduzida = Image.open(imagem)
+    imagem_reduzida.thumbnail(tamanho)
+    imagem_reduzida.save(caminho_completo)
+    return nome_arquivo
+
+
+@app.route('/cadastra_produto', methods=['GET', 'POST'])
+@login_required
+def cadastrar_produto():
+    form = FormCadastrarProduto()
+
+    if form.validate_on_submit():
+
+        if form.foto_produto.data:
+            nome_imagem = salvar_imagem(form.foto_produto.data)
+            form.foto_produto = nome_imagem
+        else:
+            nome_imagem = 'default.jpg'
+            form.foto_produto = nome_imagem
+
+        produto = Produto(nome_produto=form.nome_produto.data, qtd_produto=form.qtd_produto.data, preco_produto=form.preco_produto.data, cat_produto=form.cat_produto.data, foto_produto=form.foto_produto)
+        database.session.add(produto)
+        database.session.commit()
+
+        foto_produto = url_for('static', filename='fotos_produto/{}'.format(produto.foto_produto))
+        print('fotos_produto/{}'.format(nome_imagem))
+
+        flash('Produto inserido com sucesso!', 'success')
+        return redirect(url_for('estoque'))
+
+    return render_template('cadastrarProduto.html', form=form)

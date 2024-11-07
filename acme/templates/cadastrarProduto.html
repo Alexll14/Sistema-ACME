@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+<div class="container-fluid h-100 d-flex align-items-center justify-content-center cor_fundo">
+    <div class="p-5 bg-light rounded shadow login">
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <fieldset>
+                <h4 class="text-center">Cadastrar novo produto</h4><br>
+                <div class="mb-3 form-group">
+                    {{ form.nome_produto.label(class='form-label') }}
+                    {% if form.nome_produto.errors %}
+                        {{ form.nome_produto(class='form-control is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for erro in form.nome_produto.errors %}
+                                {{ erro }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.nome_produto(class='form-control') }}
+                    {% endif %}
+                </div>
+                <div class="mb-3 form-group">
+                    {{ form.preco_produto.label(class='form-label') }}
+                    {% if form.preco_produto.errors %}
+                        {{ form.preco_produto(class='form-control is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for erro in form.preco_produto.errors %}
+                                {{ erro }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.preco_produto(class='form-control') }}
+                    {% endif %}
+                </div>
+                <div class="mb-3 form-group">
+                    {{ form.qtd_produto.label(class='form-label') }}
+                    {% if form.qtd_produto.errors %}
+                        {{ form.qtd_produto(class='form-control is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for erro in form.qtd_produto.errors %}
+                                {{ erro }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.qtd_produto(class='form-control') }}
+                    {% endif %}
+                </div>
+                <div class="mb-3 form-group">
+                    {{ form.cat_produto.label(class='form-label') }}
+                    {% if form.cat_produto.errors %}
+                        {{ form.cat_produto(class='form-control is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for erro in form.cat_produto.errors %}
+                                {{ erro }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.cat_produto(class='form-control') }}
+                    {% endif %}
+                </div>
+                <div class="mb-3 form-group">
+                    {{ form.foto_produto.label(class='form-label') }}
+                    {% if form.foto_produto.errors %}
+                        {{ form.foto_produto(class='form-control is-invalid') }}
+                        <div class="invalid-feedback">
+                            {% for erro in form.foto_produto.errors %}
+                                {{ erro }}
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.foto_produto(class='form-control') }}
+                    {% endif %}
+                </div>
+                <br>
+            </fieldset>
+            {{ form.submit(class='btn btn-primary w-100') }}
+        </form>
+    </div>
+</div>
+
+{% endblock %}
