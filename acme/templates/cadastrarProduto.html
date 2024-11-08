@@ -25,27 +25,27 @@
                 <div class="mb-3 form-group">
                     {{ form.preco_produto.label(class='form-label') }}
                     {% if form.preco_produto.errors %}
-                        {{ form.preco_produto(class='form-control is-invalid') }}
+                        {{ form.preco_produto(class='form-control is-invalid', type='number') }}
                         <div class="invalid-feedback">
                             {% for erro in form.preco_produto.errors %}
                                 {{ erro }}
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.preco_produto(class='form-control') }}
+                        {{ form.preco_produto(class='form-control', type='number') }}
                     {% endif %}
                 </div>
                 <div class="mb-3 form-group">
                     {{ form.qtd_produto.label(class='form-label') }}
                     {% if form.qtd_produto.errors %}
-                        {{ form.qtd_produto(class='form-control is-invalid') }}
+                        {{ form.qtd_produto(class='form-control is-invalid', type='number') }}
                         <div class="invalid-feedback">
                             {% for erro in form.qtd_produto.errors %}
                                 {{ erro }}
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.qtd_produto(class='form-control') }}
+                        {{ form.qtd_produto(class='form-control', type='number') }}
                     {% endif %}
                 </div>
                 <div class="mb-3 form-group">

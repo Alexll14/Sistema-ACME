@@ -118,21 +118,55 @@ def cadastrar_produto():
 
     if form.validate_on_submit():
 
-        if form.foto_produto.data:
-            nome_imagem = salvar_imagem(form.foto_produto.data)
-            form.foto_produto = nome_imagem
+        preco = form.preco_produto.data
+        qtd = form.qtd_produto.data
+
+        print(type(preco))
+
+        if int(preco) <= 0:
+            form.preco_produto.errors.append('Valor inválido, o valor precisa ser maior que zero!')
+        elif int(qtd) <= 0:
+            form.qtd_produto.errors.append('Valor inválido, o valor precisa ser maior que zero!')
         else:
-            nome_imagem = 'default.jpg'
-            form.foto_produto = nome_imagem
+            if form.foto_produto.data:
+                nome_imagem = salvar_imagem(form.foto_produto.data)
+                form.foto_produto = nome_imagem
+            else:
+                nome_imagem = 'default.jpg'
+                form.foto_produto = nome_imagem
 
-        produto = Produto(nome_produto=form.nome_produto.data, qtd_produto=form.qtd_produto.data, preco_produto=form.preco_produto.data, cat_produto=form.cat_produto.data, foto_produto=form.foto_produto)
-        database.session.add(produto)
-        database.session.commit()
+            produto = Produto(nome_produto=form.nome_produto.data, qtd_produto=form.qtd_produto.data, preco_produto=form.preco_produto.data, cat_produto=form.cat_produto.data, foto_produto=form.foto_produto)
+            database.session.add(produto)
+            database.session.commit()
 
-        foto_produto = url_for('static', filename='fotos_produto/{}'.format(produto.foto_produto))
-        print('fotos_produto/{}'.format(nome_imagem))
+            foto_produto = url_for('static', filename='fotos_produto/{}'.format(produto.foto_produto))
 
-        flash('Produto inserido com sucesso!', 'success')
-        return redirect(url_for('estoque'))
+            flash('Produto inserido com sucesso!', 'success')
+            return redirect(url_for('estoque'))
+
+    if type(form.preco_produto.errors) == list:
+        form.preco_produto.errors.append('Valor inválido!')
+        form.preco_produto.errors.pop(0)
+    if type(form.qtd_produto.errors) == list:
+        form.qtd_produto.errors.append('Valor inválido!')
+        form.qtd_produto.errors.pop(0)
 
     return render_template('cadastrarProduto.html', form=form)
+
+@app.route('/estoque/excluir/<int:id_produto>', methods=['GET', 'POST'])
+@login_required
+def remover_produto(id_produto):
+    produto = Produto.query.filter_by(id_produto=id_produto).first()
+    deletar_imagem(produto.foto_produto)
+    database.session.delete(produto)
+    database.session.commit()
+    flash('Produto excluido com sucesso!', 'success')
+    return redirect(url_for('estoque'))
+
+def deletar_imagem(imagem):
+
+    caminho_base = r'C:\Users\alexl\Documents\GitHub\pythonCrud\acme\static\fotos_produto'
+
+    caminho_completo = os.path.join(caminho_base, imagem)
+    if os.path.exists(caminho_completo):
+        os.remove(caminho_completo)

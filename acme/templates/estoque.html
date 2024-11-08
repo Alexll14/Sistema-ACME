@@ -14,14 +14,17 @@
                     </tr>
                     <tr>
                         <th class="text-center">Produto</th>
+                        <th class="text-center">Categoria</th>
                         <th class="text-center">Quantidade</th>
                         <th class="text-center">Alterações</th>
                     </tr>
                 </thead>
                 <tbody>
+                {% for produto in produtos %}
                     <tr>
-                        <td>{{ produtos.nome_produto }}</td>
-                        <td>{{ produtos.qtd_produto }}</td>
+                        <td class="text-center">{{ produto.nome_produto }}</td>
+                        <td class="text-center">{{ produto.cat_produto }}</td>
+                        <td class="text-center">{{ produto.qtd_produto }}</td>
                         <td class="text-center">
                             <div class="row justify-content-center">
                                 <div class="col">
@@ -34,10 +37,11 @@
                                     <a class="btn btn-warning btn-sm btnTable w-100" href="#"><span class="glyphicon glyphicon-minus"></span> <b>-</b></a>
                                 </div>
                                 <div class="col">
-                                    <a class="btn btn-danger btn-sm btnTable w-100" href="#"><span class="glyphicon glyphicon-trash"></span> Deletar</a>
+                                    <a class="btn btn-danger btn-sm btnTable w-100" href="{{ url_for('remover_produto', id_produto=produto.id_produto) }}"><span class="glyphicon glyphicon-trash"></span> Deletar</a>
                                 </div>
                             </div>
                         </td>
+                        {% endfor %}
                     </tr>
                 </tbody>
             </table>

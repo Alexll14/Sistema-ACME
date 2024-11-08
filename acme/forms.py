@@ -28,5 +28,5 @@ class FormCadastrarProduto(FlaskForm):
     preco_produto = FloatField('Cadastrar preço do produto')
     qtd_produto = IntegerField('Cadastrar quantidade do produto')
     cat_produto = StringField('Cadastrar categoria do produto')
-    foto_produto = FileField('Cadastrar foto do produto', validators=[FileAllowed(['jpg','jpeg','png'])])
+    foto_produto = FileField('Cadastrar foto do produto', validators=[FileAllowed(['jpg','jpeg','png','webp'])])
     submit = SubmitField('Cadastrar produto')
