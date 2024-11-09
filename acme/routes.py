@@ -1,6 +1,6 @@
 from acme import app, bcrypt, database
 from acme.models import Admin, Produto
-from acme.forms import FormLoginAdmin, FormCadastrarAdmin, FormCadastrarProduto
+from acme.forms import FormLoginAdmin, FormCadastrarAdmin, FormCadastrarProduto, FormEntrada, FormSaida
 
 from flask import render_template, url_for, request, redirect, flash
 from flask_login import login_user, login_required, logout_user
@@ -17,7 +17,33 @@ def home():
 @login_required
 def estoque():
     produtos = Produto.query.all()
-    return render_template('estoque.html', produtos=produtos)
+    formE = FormEntrada()
+    formS = FormSaida()
+    return render_template('estoque.html', produtos=produtos, formE=formE , formS=formS)
+
+@app.route('/estoque/entrada', methods=['GET', 'POST'])
+@login_required
+def entrada():
+    form = FormEntrada()
+    id_produto = int(form.id_produto.data)
+    produto = Produto.query.filter_by(id_produto=id_produto).first()
+    produto.qtd_produto += form.qtd_produto.data
+    database.session.commit()
+
+    flash('Produto alterado com sucesso!', 'success')
+    return redirect(url_for('estoque'))
+
+@app.route('/estoque/saida', methods=['GET', 'POST'])
+@login_required
+def saida():
+    form = FormSaida()
+    id_produto = int(form.id_produto.data)
+    produto = Produto.query.filter_by(id_produto=id_produto).first()
+    produto.qtd_produto -= form.qtd_produto.data
+    database.session.commit()
+
+    flash('Produto alterado com sucesso!', 'success')
+    return redirect(url_for('estoque'))
 
 @app.route('/usuario/<username>/excluir', methods=['GET', 'POST'])
 @login_required
